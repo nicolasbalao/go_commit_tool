@@ -37,6 +37,10 @@ footer string
 - [x] with the main
 - [x] Make breaking component
 
+---2022-12-09---
+- [ ] Create multiple input Component for scope description body footer
+
+
 ## To improove
 
 - [ ] breaking change with a confirm like gum

@@ -1,6 +1,8 @@
 package tui
 
 import (
+	"fmt"
+
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -21,9 +23,9 @@ type State int
 const (
 	typeS State = iota
 	breakingS
+	bodyS
 	scopeS
 	descriptionS
-	bodyS
 	footerS
 )
 
@@ -32,6 +34,8 @@ const (
 type Model struct {
 	typeComponent     *typeModel
 	breakingComponent *breakingModel
+	bodyComponent     *bodyModel
+
 	/*Components
 	  scopeComponent *scopeModel
 	  descriptionComponent *descriptionModel
@@ -46,8 +50,10 @@ type Model struct {
 // Create the Model
 func NewModel() Model {
 	return Model{
-		typeComponent: newTypeModel(),
-        breakingComponent: newBreakingModel(),
+		typeComponent:     newTypeModel(),
+		breakingComponent: newBreakingModel(),
+		bodyComponent:     newBodyModel(),
+		state:             bodyS,
 	}
 }
 
@@ -76,10 +82,11 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	//Call update function of the components
 	case typeS:
 		return typeUpdate(msg, m)
-    case breakingS:
-        return breakingUpdate(msg, m)
+	case breakingS:
+		return breakingUpdate(msg, m)
+	case bodyS:
+		return m.bodyComponent.Update(msg, m)
 	}
-
 	return m, nil
 }
 
@@ -88,8 +95,10 @@ func (m Model) View() string {
 	switch m.state {
 	case typeS:
 		return m.typeComponent.View()
-    case breakingS:
-        return m.breakingComponent.View()
+	case breakingS:
+		return m.breakingComponent.View()
+	case bodyS:
+		return m.bodyComponent.View()
 	default:
 		return ""
 	}
