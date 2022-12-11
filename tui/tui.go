@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/nicolasbalao/go_commit_toll/style"
 )
 
 // Structures and enums
@@ -33,7 +34,7 @@ const (
 // Global struct of the app
 
 type Model struct {
-	typeComponent        *typeModel
+	typeComponent        *typeCommitModel
 	breakingComponent    *breakingModel
 	scopeComponent       *textInputModel
 	descriptionComponent *textInputModel
@@ -66,7 +67,7 @@ func NewModel() Model {
 			"description of the breaking change and ref if you want",
 		),
 		commit: &commitMessae,
-		state:  scopeS,
+        state: typeS,
 	}
 }
 
@@ -99,7 +100,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch m.state {
 	//Call update function of the components
 	case typeS:
-		return typeUpdate(msg, m)
+        value, rm, cmd := m.typeComponent.Update(msg, m)
+        m.commit.typeCommit = value
+        return rm, cmd
 	case breakingS:
 		return breakingUpdate(msg, m)
 	case scopeS:
@@ -130,17 +133,17 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m Model) View() string {
 	switch m.state {
 	case typeS:
-		return m.typeComponent.View()
+		return style.Margin.Render(m.typeComponent.View())
 	case breakingS:
-		return m.breakingComponent.View()
+		return style.Margin.Render(m.breakingComponent.View())
 	case scopeS:
-		return m.scopeComponent.View()
+		return style.Margin.Render(m.scopeComponent.View())
 	case descriptionS:
-		return m.descriptionComponent.View()
+		return style.Margin.Render(m.descriptionComponent.View())
 	case bodyS:
-		return m.bodyComponent.View()
+		return style.Margin.Render(m.bodyComponent.View())
 	case footerS:
-		return m.footerComponent.View()
+		return style.Margin.Render(m.footerComponent.View())
 	case commitS:
 		m.printCommit()
 		return "Commit View"

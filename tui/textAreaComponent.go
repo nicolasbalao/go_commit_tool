@@ -5,6 +5,7 @@ import (
 
 	"github.com/charmbracelet/bubbles/textarea"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/nicolasbalao/go_commit_toll/style"
 )
 
 type textAreaModel struct {
@@ -17,6 +18,7 @@ func newTexteAreaComponent(title string, placeholder string) *textAreaModel {
 	ta := textarea.New()
 	ta.Placeholder = placeholder
 	ta.Focus()
+
 
 	return &textAreaModel{
         title: title,
@@ -62,8 +64,8 @@ func (m *textAreaModel) Update(msg tea.Msg, tm Model) (string, tea.Model, tea.Cm
 
 func (m textAreaModel) View() string {
 	return fmt.Sprintf(
-		"%s .\n\n%s\n\n",
-        m.title,
+		"%s \n\n%s\n\n",
+        style.TitleStyle.Render(m.title),
 		m.textarea.View(),
 	) + "\n\n"
 }

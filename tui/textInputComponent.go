@@ -5,6 +5,7 @@ import (
 
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/nicolasbalao/go_commit_toll/style"
 )
 
 type textInputModel struct {
@@ -19,6 +20,8 @@ func newTextInputComponent(title string, placeholder string) *textInputModel {
 	ti.Placeholder = placeholder
 	ti.Focus()
 	ti.CharLimit = 156
+	ti.PromptStyle = style.InputPrompStyle
+
 
 	return &textInputModel{
 		title:     title,
@@ -33,12 +36,13 @@ func (m textInputModel) Init() tea.Cmd {
 func (m *textInputModel) Update(msg tea.Msg, tm Model) (string, tea.Model, tea.Cmd) {
 	var cmd tea.Cmd
 
+
 	switch msg := msg.(type) {
-    case tea.KeyMsg:
-        switch keypress := msg.String(); keypress{
-        case "enter":
-            tm.state++
-        }
+	case tea.KeyMsg:
+		switch keypress := msg.String(); keypress {
+		case "enter":
+			tm.state++
+		}
 	case errMsg:
 		m.err = msg
 	}
@@ -50,8 +54,8 @@ func (m *textInputModel) Update(msg tea.Msg, tm Model) (string, tea.Model, tea.C
 
 func (m textInputModel) View() string {
 	return fmt.Sprintf(
-		"%s\n\n%s\n\n",
-		m.title,
-		m.textInput.View(),
+		("%s\n\n%s\n\n"),
+		style.TitleStyle.Render(m.title),
+		style.InputTextStyle.Render(m.textInput.View()),
 	) + "\n"
 }

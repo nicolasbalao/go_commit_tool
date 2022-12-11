@@ -2,17 +2,17 @@ package tui
 
 import (
 	"fmt"
+	"io"
+
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"io"
 )
 
 // Style Variable
 var (
-	titleStyle        = lipgloss.NewStyle().MarginLeft(2)
 	itemStyle         = lipgloss.NewStyle().PaddingLeft(4)
-	selectedItemStyle = lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("170"))
+	selectedItemStyle = lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("63"))
 	paginationStyle   = list.DefaultStyles().PaginationStyle.PaddingLeft(4)
 	helpStyle         = list.DefaultStyles().HelpStyle.PaddingLeft(4).PaddingBottom(1)
 	quitTextStyle     = lipgloss.NewStyle().Margin(1, 0, 2, 4)
@@ -49,7 +49,7 @@ func (d itemDelegate) Render(w io.Writer, m list.Model, index int, listItem list
 }
 
 // The struct of the list for bubble
-type typeModel struct {
+type typeCommitModel struct {
 	list     list.Model
 	choice   string
 	quitting bool
@@ -57,7 +57,7 @@ type typeModel struct {
 
 // Initial / Create the model
 
-func newTypeModel() *typeModel {
+func newTypeModel() *typeCommitModel {
 	items := []list.Item{
 		item("feat"),
 		item("fix"),
@@ -70,44 +70,42 @@ func newTypeModel() *typeModel {
 		item("perf"),
 	}
 
-	const defaultWidth = 40
 
-	l := list.New(items, itemDelegate{}, defaultWidth, 15)
+	l := list.New(items, itemDelegate{}, 50, 15)
 	l.Title = "Type of the commit"
 
-	return &typeModel{
+	return &typeCommitModel{
 		list: l,
 	}
 }
 
 // Init function, rly need?
-func (m typeModel) Init() tea.Cmd {
+func (m typeCommitModel) Init() tea.Cmd {
 	return nil
 }
 
 // The Update function
 
-func typeUpdate(msg tea.Msg, m Model) (tea.Model, tea.Cmd) {
+func (m *typeCommitModel) Update(msg tea.Msg, tm Model) (string, tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch keypress := msg.String(); keypress {
-        case "enter":
-            item, ok := m.typeComponent.list.SelectedItem().(item)
-            if ok {
-                m.typeComponent.choice = string(item)
-                m.commit.scope = string(item)
-                m.state++
-            }
-            return m, nil
+		case "enter":
+			item, ok := m.list.SelectedItem().(item)
+			if ok {
+				m.choice = string(item)
+				tm.state++
+			}
+			return m.choice, tm, nil
 		}
 
 	}
-    var cmd tea.Cmd
-    m.typeComponent.list, cmd = m.typeComponent.list.Update(msg)
+	var cmd tea.Cmd
+	m.list, cmd = m.list.Update(msg)
 
-    return m, cmd
+	return "", tm, cmd
 }
 
-func (m typeModel) View() string{
-    return "\n" + m.list.View()
+func (m typeCommitModel) View() string {
+	return "\n" + m.list.View()
 }
