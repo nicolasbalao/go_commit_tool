@@ -8,6 +8,10 @@ import (
 	"github.com/nicolasbalao/go_commit_toll/style"
 )
 
+type (
+    errMsg error
+)
+
 type textInputModel struct {
 	title     string
 	textInput textinput.Model
