@@ -11,8 +11,8 @@ import (
 
 // Style Variable
 var (
-	itemStyle         = lipgloss.NewStyle().PaddingLeft(4)
-	selectedItemStyle = lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("63"))
+	itemStyle         = lipgloss.NewStyle().PaddingLeft(4).PaddingTop(1)
+	selectedItemStyle = lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("63")).PaddingTop(1)
 	paginationStyle   = list.DefaultStyles().PaginationStyle.PaddingLeft(4)
 	helpStyle         = list.DefaultStyles().HelpStyle.PaddingLeft(4).PaddingBottom(1)
 	quitTextStyle     = lipgloss.NewStyle().Margin(1, 0, 2, 4)
@@ -59,17 +59,16 @@ type typeCommitModel struct {
 
 func newTypeModel() *typeCommitModel {
 	items := []list.Item{
-		item("feat"),
-		item("fix"),
-		item("docs"),
-		item("refactor"),
-		item("build"),
-		item("style"),
-		item("test"),
-		item("chore"),
-		item("perf"),
+		item("✨ feat"),
+		item("🐛 fix"),
+		item("🎉 init"),
+		item("📝 docs"),
+		item("🔨 refactor"),
+		item("🏗️  build"),
+		item("🎨 style"),
+		item("✅ test"),
+		item("🐎 perf"),
 	}
-
 
 	l := list.New(items, itemDelegate{}, 50, 15)
 	l.Title = "Type of the commit"
