@@ -3,6 +3,7 @@ package tui
 import (
 	"fmt"
 	"io"
+	"strings"
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
@@ -62,15 +63,15 @@ type typeCommitModel struct {
 
 func newTypeModel() *typeCommitModel {
 	items := []list.Item{
-			item("✨ feat"),
-			item("🐛 fix"),
-			item("🎉 init"),
-			item("📝 docs"),
-			item("🔨 refactor"),
-			item("🏗️  build"),
-			item("🎨 style"),
-			item("✅ test"),
-			item("🐎 perf"),
+		item("✨ feat"),
+		item("🐛 fix"),
+		item("🎉 init"),
+		item("📝 docs"),
+		item("🔨 refactor"),
+		item("🏗️  build"),
+		item("🎨 style"),
+		item("✅ test"),
+		item("🐎 perf"),
 	}
 
 	l := list.New(items, itemDelegate{}, 50, 15)
@@ -95,10 +96,11 @@ func (m *typeCommitModel) Update(msg tea.Msg, tm Model) (string, tea.Model, tea.
 		case "enter":
 			item, ok := m.list.SelectedItem().(item)
 			if ok {
-                m.choice = string(item)[2:] // Get juste the string not the glyph
+                choice := string(item[2:])
+				m.choice = strings.ReplaceAll(choice, " ", "") // Remove space
 				tm.state++
 			}
-            return m.choice[2:], tm, nil
+			return m.choice[2:], tm, nil
 		}
 
 	}
