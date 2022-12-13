@@ -55,11 +55,7 @@ type Model struct {
 // Create the Model
 func NewModel() Model {
 
-	commitMessage := commitMessage{
-		scope:  "", //optional
-		body:   "", //optional
-		footer: "", //optional
-	}
+	commitMessage := commitMessage{}
 
 	return Model{
 		typeComponent:     newTypeModel(),
@@ -80,8 +76,7 @@ func NewModel() Model {
 		),
 
 		previewComponent: newConfirmComponent("Preview", "Commit ?"),
-
-		commit: &commitMessage,
+        commit : &commitMessage,
 		state:  typeS,
 	}
 }
@@ -235,7 +230,7 @@ func (m Model) sendCommitMesage() tea.Cmd {
 		"-m "+icon_message+m.commit.typeCommit+m.commit.scope+m.commit.description,
 		"-m "+m.commit.body, "-m "+m.commit.footer,
 	)
-	// cmd.Dir = "/tmp/test"
+	cmd.Dir = "/tmp/test"
 
 	err := cmd.Run()
 
