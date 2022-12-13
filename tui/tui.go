@@ -116,7 +116,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	//Call update function of the components
 	case typeS:
 		value, rm, cmd := m.typeComponent.Update(msg, m)
-        m.commit.typeCommit = value
+		m.commit.typeCommit = value
 		return rm, cmd
 	case breakingS:
 		value, rm, cmd := m.breakingComponent.Update(msg, m)
@@ -144,13 +144,10 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.commit.footer = value
 		return rm, cmd
 	case previewS:
-		value, rm, cmd := m.previewComponent.Update(msg, m)
-		if !value {
-			return rm, tea.Quit
-		}
+		_, rm, cmd := m.previewComponent.Update(msg, m)
 		return rm, cmd
 	case commitS:
-		cmd := m.commitMessage()
+		cmd := m.sendCommitMesage()
 		return m, cmd
 	}
 	return m, nil
@@ -176,7 +173,7 @@ func (m Model) View() string {
 	case previewS:
 		return style.Margin.Render(m.previewComponent.View() + "\n\n" + m.previewCommit())
 	case commitS:
-		return "Commit View"
+		return "sending commit message"
 	default:
 		return "not component view"
 	}
@@ -210,33 +207,43 @@ func (m Model) previewCommit() string {
 	return commit
 }
 
-func (m Model) commitMessage() tea.Cmd {
+func (m Model) sendCommitMesage() tea.Cmd {
 
-	fmt.Println(m.commit.scope)
+	git_icon := map[string]string{
+		"feat":     ":sparkles:",
+		"init":     ":tada:",
+		"fix":      ":bug:",
+		"docs":     ":books:",
+		"refactor": ":hammer:",
+		"build":    ":construction:",
+		"style":    ":art:",
+		"test":     " :white_check_mark:",
+		"perf":     ":racehorse:",
+	}
+
+	icon_message := git_icon[m.commit.typeCommit]
 
 	if m.commit.breaking {
 		m.commit.scope = "(" + m.commit.scope + ")!: "
-	} else {
+	} else if m.commit.scope != "" {
 		m.commit.scope = "(" + m.commit.scope + "): "
 	}
-
-	fmt.Printf(
-		"git commit -m %s%s%s -m %s -m %s",
-		m.commit.typeCommit,
-		m.commit.scope,
-		m.commit.description,
-	)
 
 	cmd := exec.Command(
 		"git",
 		"commit",
-		"-m "+m.commit.typeCommit+m.commit.scope+m.commit.description,
+		"-m "+icon_message+m.commit.typeCommit+m.commit.scope+m.commit.description,
 		"-m "+m.commit.body, "-m "+m.commit.footer,
 	)
-	out, err := cmd.Output()
+
+	// cmd.Dir = "/tmp/test"
+
+	err := cmd.Run()
+
 	if err != nil {
-		fmt.Printf("error: ", err)
+		fmt.Printf("error: %v", err)
+		return nil
 	}
-	fmt.Printf("output: %v", out)
-	return nil
+
+	return tea.Quit
 }

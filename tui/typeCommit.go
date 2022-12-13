@@ -12,10 +12,13 @@ import (
 // Style Variable
 var (
 	itemStyle         = lipgloss.NewStyle().PaddingLeft(4).PaddingTop(1)
-	selectedItemStyle = lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("63")).PaddingTop(1)
-	paginationStyle   = list.DefaultStyles().PaginationStyle.PaddingLeft(4)
-	helpStyle         = list.DefaultStyles().HelpStyle.PaddingLeft(4).PaddingBottom(1)
-	quitTextStyle     = lipgloss.NewStyle().Margin(1, 0, 2, 4)
+	selectedItemStyle = lipgloss.NewStyle().
+				PaddingLeft(2).
+				Foreground(lipgloss.Color("63")).
+				PaddingTop(1)
+	paginationStyle = list.DefaultStyles().PaginationStyle.PaddingLeft(4)
+	helpStyle       = list.DefaultStyles().HelpStyle.PaddingLeft(4).PaddingBottom(1)
+	quitTextStyle   = lipgloss.NewStyle().Margin(1, 0, 2, 4)
 )
 
 type item string
@@ -59,15 +62,15 @@ type typeCommitModel struct {
 
 func newTypeModel() *typeCommitModel {
 	items := []list.Item{
-		item("✨ feat"),
-		item("🐛 fix"),
-		item("🎉 init"),
-		item("📝 docs"),
-		item("🔨 refactor"),
-		item("🏗️  build"),
-		item("🎨 style"),
-		item("✅ test"),
-		item("🐎 perf"),
+			item("✨ feat"),
+			item("🐛 fix"),
+			item("🎉 init"),
+			item("📝 docs"),
+			item("🔨 refactor"),
+			item("🏗️  build"),
+			item("🎨 style"),
+			item("✅ test"),
+			item("🐎 perf"),
 	}
 
 	l := list.New(items, itemDelegate{}, 50, 15)
@@ -92,10 +95,10 @@ func (m *typeCommitModel) Update(msg tea.Msg, tm Model) (string, tea.Model, tea.
 		case "enter":
 			item, ok := m.list.SelectedItem().(item)
 			if ok {
-				m.choice = string(item)
+                m.choice = string(item)[2:] // Get juste the string not the glyph
 				tm.state++
 			}
-			return m.choice, tm, nil
+            return m.choice[2:], tm, nil
 		}
 
 	}
