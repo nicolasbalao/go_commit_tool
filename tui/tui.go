@@ -235,7 +235,6 @@ func (m Model) sendCommitMesage() tea.Cmd {
 		"-m "+icon_message+m.commit.typeCommit+m.commit.scope+m.commit.description,
 		"-m "+m.commit.body, "-m "+m.commit.footer,
 	)
-
 	// cmd.Dir = "/tmp/test"
 
 	err := cmd.Run()
