@@ -210,15 +210,15 @@ func (m Model) previewCommit() string {
 func (m Model) sendCommitMesage() tea.Cmd {
 
 	git_icon := map[string]string{
-		"feat":     ":sparkles:",
-		"init":     ":tada:",
-		"fix":      ":bug:",
-		"docs":     ":books:",
-		"refactor": ":hammer:",
-		"build":    ":construction:",
-		"style":    ":art:",
-		"test":     " :white_check_mark:",
-		"perf":     ":racehorse:",
+		"feat":     ":sparkles: ",
+		"init":     ":tada: ",
+		"fix":      ":bug: ",
+		"docs":     ":books: ",
+		"refactor": ":hammer: ",
+		"build":    ":construction: ",
+		"style":    ":art: ",
+		"test":     " :white_check_mark: ",
+		"perf":     ":racehorse: ",
 	}
 
 	icon_message := git_icon[m.commit.typeCommit]
