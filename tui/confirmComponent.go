@@ -7,7 +7,7 @@ import (
 )
 
 var componentStyle = lipgloss.NewStyle().
-	Border(lipgloss.RoundedBorder()).
+	Border(lipgloss.RoundedBorder()).BorderForeground(lipgloss.Color("63")).
 	AlignHorizontal(lipgloss.Center).Padding(0, 1)
 
 var selectedStyle = lipgloss.NewStyle().

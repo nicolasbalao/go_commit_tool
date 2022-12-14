@@ -3,7 +3,7 @@ package style
 import "github.com/charmbracelet/lipgloss"
 
 var (
-	Margin = lipgloss.NewStyle().Margin(1, 2).Width(50)
+	Margin = lipgloss.NewStyle().Margin(1, 2).Width(70)
 
 	TitleStyle = lipgloss.NewStyle().
 			Background(lipgloss.Color("62")).
@@ -18,7 +18,9 @@ var (
 
 	InputPrompStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("62"))
 
-    HelpStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("63")).MarginTop(1)
+    HelpStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("60")).MarginTop(1)
 
-    BorderStyle = lipgloss.NewStyle().Border(lipgloss.RoundedBorder())
+    BorderStyle = lipgloss.NewStyle().Border(lipgloss.RoundedBorder()).BorderForeground(lipgloss.Color("63"))
+
+    SubtitleStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("42"))
 )

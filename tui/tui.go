@@ -191,7 +191,9 @@ func (m Model) View() string {
 		)
 	case previewS:
 		return style.Margin.Render(
-			m.previewComponent.View() + "\n\n" + style.BorderStyle.Render(
+			m.previewComponent.View() + "\n\n" + style.SubtitleStyle.Render(
+				"Commit Message",
+			) + "\n"+ style.BorderStyle.Render(
 				m.previewCommit(),
 			) + "\n" + style.HelpStyle.Render(
 				m.helper,
