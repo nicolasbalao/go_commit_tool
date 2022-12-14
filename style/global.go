@@ -17,4 +17,8 @@ var (
 			UnsetAlignHorizontal()
 
 	InputPrompStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("62"))
+
+    HelpStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("63")).MarginTop(1)
+
+    BorderStyle = lipgloss.NewStyle().Border(lipgloss.RoundedBorder())
 )

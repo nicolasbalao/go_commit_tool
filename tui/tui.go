@@ -50,6 +50,7 @@ type Model struct {
 	focusedTextArea bool
 	commit          *commitMessage
 	state           State
+	helper          string
 }
 
 // Create the Model
@@ -78,6 +79,7 @@ func NewModel() Model {
 		previewComponent: newConfirmComponent("Preview", "Commit ?"),
 		commit:           &commitMessage,
 		state:            typeS,
+		helper:           "ctrl+h/p: back  ctrl+l/n: next",
 	}
 }
 
@@ -103,6 +105,17 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if !m.focusedTextArea {
 				return m, tea.Quit
 			}
+		case "ctrl+n", "ctrl+l":
+			if m.state != 7 {
+				m.state++
+			}
+			return m, nil
+		case "ctrl+p", "ctrl+h":
+			m.state--
+			if m.state < 0 {
+				m.state = 0
+			}
+			return m, nil
 		}
 
 	}
@@ -144,29 +157,38 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case commitS:
 		cmd := m.sendCommitMesage()
 		return m, cmd
+    default:
+        return m, tea.Quit
 	}
-	return m, nil
 }
 
 // View
 func (m Model) View() string {
 	switch m.state {
 	case typeS:
-		return style.Margin.Render(m.typeComponent.View())
+		return style.Margin.Render(m.typeComponent.View() + "\n" + style.HelpStyle.Render(m.helper))
 	case breakingS:
-		return style.Margin.Render(m.breakingComponent.View())
+		return style.Margin.Render(m.breakingComponent.View() + "\n" + style.HelpStyle.Render(m.helper))
 	case breakingDescS:
-		return style.Margin.Render(m.breakingDescComponent.View())
+		return style.Margin.Render(
+			m.breakingDescComponent.View() + "\n" + style.HelpStyle.Render(m.helper),
+		)
 	case scopeS:
-		return style.Margin.Render(m.scopeComponent.View())
+		return style.Margin.Render(m.scopeComponent.View() + "\n" + style.HelpStyle.Render(m.helper))
 	case descriptionS:
-		return style.Margin.Render(m.descriptionComponent.View())
+		return style.Margin.Render(
+			m.descriptionComponent.View() + "\n" + style.HelpStyle.Render(m.helper),
+		)
 	case bodyS:
-		return style.Margin.Render(m.bodyComponent.View())
+		return style.Margin.Render(m.bodyComponent.View() + "\n" + style.HelpStyle.Render(m.helper))
 	case footerS:
-		return style.Margin.Render(m.footerComponent.View())
+		return style.Margin.Render(m.footerComponent.View() + "\n" + style.HelpStyle.Render(m.helper))
 	case previewS:
-		return style.Margin.Render(m.previewComponent.View() + "\n\n" + m.previewCommit())
+		return style.Margin.Render(
+			m.previewComponent.View() + "\n\n" + style.BorderStyle.Render(m.previewCommit()) + "\n" + style.HelpStyle.Render(
+				m.helper,
+			),
+		)
 	case commitS:
 		return "sending commit message"
 	default:

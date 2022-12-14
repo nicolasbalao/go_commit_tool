@@ -76,6 +76,7 @@ func newTypeModel() *typeCommitModel {
 
 	l := list.New(items, itemDelegate{}, 50, 15)
 	l.Title = "Type of the commit"
+    l.SetShowHelp(false)
 
 	return &typeCommitModel{
 		list: l,
