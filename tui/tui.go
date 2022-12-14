@@ -33,6 +33,7 @@ const (
 	footerS
 	previewS
 	commitS
+    sendCommitS
 )
 
 // Global struct of the app
@@ -46,6 +47,7 @@ type Model struct {
 	bodyComponent         *textAreaModel
 	footerComponent       *textAreaModel
 	previewComponent      *confirmModel
+	progressComponent     *progressModel
 
 	focusedTextArea bool
 	commit          *commitMessage
@@ -75,6 +77,7 @@ func NewModel() Model {
 			"footer",
 			"description of the breaking change and ref if you want",
 		),
+        progressComponent: newProgressModel(),
 
 		previewComponent: newConfirmComponent("Preview", "Commit ?"),
 		commit:           &commitMessage,
@@ -152,14 +155,17 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.commit.footer = value
 		return rm, cmd
 	case previewS:
-        if m.commit.typeCommit == "" || m.commit.description == ""{
-            return m, nil
-        }
+		if m.commit.typeCommit == "" || m.commit.description == "" {
+			return m, nil
+		}
 		_, rm, cmd := m.previewComponent.Update(msg, m)
 		return rm, cmd
 	case commitS:
-		cmd := m.sendCommitMesage()
+        cmd := m.progressComponent.Update(msg, m)
 		return m, cmd
+    case sendCommitS:
+        m.sendCommitMesage()
+        return m, tea.Quit
 	default:
 		return m, tea.Quit
 	}
@@ -194,21 +200,21 @@ func (m Model) View() string {
 		)
 	case previewS:
 
-        if m.commit.typeCommit == "" || m.commit.description == "" {
-            return style.ErrorStyle.Render("Missing value scope or description")
-        }
+		if m.commit.typeCommit == "" || m.commit.description == "" {
+			return style.ErrorStyle.Render("Missing value scope or description")
+		}
 
 		return style.Margin.Render(
 			m.previewComponent.View() + "\n\n" + style.SubtitleStyle.Render(
 				"Commit Message",
-			) + "\n"+ style.BorderStyle.Render(
+			) + "\n" + style.BorderStyle.Render(
 				m.previewCommit(),
 			) + "\n" + style.HelpStyle.Render(
 				m.helper,
 			),
 		)
 	case commitS:
-		return "sending commit message"
+		return "Press enter for start sending" + "\n\n" + m.progressComponent.View()
 	default:
 		return "not component view"
 	}
@@ -263,8 +269,8 @@ func (m Model) sendCommitMesage() tea.Cmd {
 	} else if m.commit.scope != "" {
 		m.commit.scope = "(" + m.commit.scope + "): "
 	} else {
-        m.commit.typeCommit += ": "
-    }
+		m.commit.typeCommit += ": "
+	}
 
 	cmd := exec.Command(
 		"git",
