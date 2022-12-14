@@ -152,6 +152,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.commit.footer = value
 		return rm, cmd
 	case previewS:
+        if m.commit.typeCommit == "" || m.commit.description == ""{
+            return m, nil
+        }
 		_, rm, cmd := m.previewComponent.Update(msg, m)
 		return rm, cmd
 	case commitS:
@@ -190,6 +193,11 @@ func (m Model) View() string {
 			m.footerComponent.View() + "\n" + style.HelpStyle.Render(m.helper),
 		)
 	case previewS:
+
+        if m.commit.typeCommit == "" || m.commit.description == "" {
+            return style.ErrorStyle.Render("Missing value scope or description")
+        }
+
 		return style.Margin.Render(
 			m.previewComponent.View() + "\n\n" + style.SubtitleStyle.Render(
 				"Commit Message",

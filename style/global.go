@@ -23,4 +23,6 @@ var (
     BorderStyle = lipgloss.NewStyle().Border(lipgloss.RoundedBorder()).BorderForeground(lipgloss.Color("63"))
 
     SubtitleStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("42"))
+
+    ErrorStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("9"))
 )
