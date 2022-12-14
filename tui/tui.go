@@ -157,8 +157,8 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case commitS:
 		cmd := m.sendCommitMesage()
 		return m, cmd
-    default:
-        return m, tea.Quit
+	default:
+		return m, tea.Quit
 	}
 }
 
@@ -168,13 +168,17 @@ func (m Model) View() string {
 	case typeS:
 		return style.Margin.Render(m.typeComponent.View() + "\n" + style.HelpStyle.Render(m.helper))
 	case breakingS:
-		return style.Margin.Render(m.breakingComponent.View() + "\n" + style.HelpStyle.Render(m.helper))
+		return style.Margin.Render(
+			m.breakingComponent.View() + "\n" + style.HelpStyle.Render(m.helper),
+		)
 	case breakingDescS:
 		return style.Margin.Render(
 			m.breakingDescComponent.View() + "\n" + style.HelpStyle.Render(m.helper),
 		)
 	case scopeS:
-		return style.Margin.Render(m.scopeComponent.View() + "\n" + style.HelpStyle.Render(m.helper))
+		return style.Margin.Render(
+			m.scopeComponent.View() + "\n" + style.HelpStyle.Render(m.helper),
+		)
 	case descriptionS:
 		return style.Margin.Render(
 			m.descriptionComponent.View() + "\n" + style.HelpStyle.Render(m.helper),
@@ -182,10 +186,14 @@ func (m Model) View() string {
 	case bodyS:
 		return style.Margin.Render(m.bodyComponent.View() + "\n" + style.HelpStyle.Render(m.helper))
 	case footerS:
-		return style.Margin.Render(m.footerComponent.View() + "\n" + style.HelpStyle.Render(m.helper))
+		return style.Margin.Render(
+			m.footerComponent.View() + "\n" + style.HelpStyle.Render(m.helper),
+		)
 	case previewS:
 		return style.Margin.Render(
-			m.previewComponent.View() + "\n\n" + style.BorderStyle.Render(m.previewCommit()) + "\n" + style.HelpStyle.Render(
+			m.previewComponent.View() + "\n\n" + style.BorderStyle.Render(
+				m.previewCommit(),
+			) + "\n" + style.HelpStyle.Render(
 				m.helper,
 			),
 		)

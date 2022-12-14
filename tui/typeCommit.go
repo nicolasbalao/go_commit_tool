@@ -63,7 +63,7 @@ type typeCommitModel struct {
 
 func newTypeModel() *typeCommitModel {
 	items := []list.Item{
-		item("✨ feat"),
+		item("🌟 feat"),
 		item("🐛 fix"),
 		item("🎉 init"),
 		item("📝 docs"),
@@ -73,10 +73,9 @@ func newTypeModel() *typeCommitModel {
 		item("✅ test"),
 		item("🐎 perf"),
 	}
-
 	l := list.New(items, itemDelegate{}, 50, 15)
 	l.Title = "Type of the commit"
-    l.SetShowHelp(false)
+	l.SetShowHelp(false)
 
 	return &typeCommitModel{
 		list: l,
@@ -89,7 +88,6 @@ func (m typeCommitModel) Init() tea.Cmd {
 }
 
 // The Update function
-
 func (m *typeCommitModel) Update(msg tea.Msg, tm Model) (string, tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
@@ -97,7 +95,7 @@ func (m *typeCommitModel) Update(msg tea.Msg, tm Model) (string, tea.Model, tea.
 		case "enter":
 			item, ok := m.list.SelectedItem().(item)
 			if ok {
-                choice := string(item[2:])
+				choice := string(item[2:])
 				m.choice = strings.ReplaceAll(choice, " ", "") // Remove space
 				tm.state++
 			}
