@@ -262,7 +262,9 @@ func (m Model) sendCommitMesage() tea.Cmd {
 		m.commit.scope = "(" + m.commit.scope + ")!: "
 	} else if m.commit.scope != "" {
 		m.commit.scope = "(" + m.commit.scope + "): "
-	}
+	} else {
+        m.commit.typeCommit += ": "
+    }
 
 	cmd := exec.Command(
 		"git",
