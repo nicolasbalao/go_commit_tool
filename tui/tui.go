@@ -169,8 +169,8 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		cmd := m.progressComponent.Update(msg, &m)
 		return m, cmd
 	case sendCommitS:
-		m.sendCommitMesage()
-		return m, tea.Quit
+        cmd := m.sendCommitMesage()
+		return m, cmd
 	default:
 		return m, tea.Quit
 	}
@@ -284,7 +284,6 @@ func (m Model) sendCommitMesage() tea.Cmd {
 		"-m "+m.commit.body, "-m "+m.commit.footer,
 	)
 
-	// cmd.Dir = "/tmp/test"
 
 	err := cmd.Run()
 

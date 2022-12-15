@@ -13,6 +13,7 @@ var componentStyle = lipgloss.NewStyle().
 var selectedStyle = lipgloss.NewStyle().
 	Background(lipgloss.Color("63")).
 	Foreground(lipgloss.Color("230"))
+
 var unselectedStyle = lipgloss.NewStyle().Background(lipgloss.Color("60"))
 
 type confirmModel struct {
