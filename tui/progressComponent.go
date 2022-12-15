@@ -29,7 +29,7 @@ func (m *progressModel) Init() tea.Cmd {
 	return tickCmd()
 }
 
-func (m *progressModel) Update(msg tea.Msg, tm Model) tea.Cmd {
+func (m *progressModel) Update(msg tea.Msg, tm *Model) tea.Cmd {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		m.progress.Width = msg.Width - padding*2 - 4
@@ -37,21 +37,14 @@ func (m *progressModel) Update(msg tea.Msg, tm Model) tea.Cmd {
 			m.progress.Width = maxWidth
 		}
 		return nil
-	case tickMsg:
-		if m.progress.Percent() == 1.0 {
-            tm.state++
-			return tea.Quit
-		}
-		cmd := m.progress.IncrPercent(0.25)
-		return tea.Batch(tickCmd(), cmd)
-
 	case progress.FrameMsg:
 		progressModel, cmd := m.progress.Update(msg)
 		m.progress = progressModel.(progress.Model)
 		return cmd
 	default:
-		if m.progress.Percent() == 1.0 {
-			return tea.Quit
+		if m.progress.Percent() == 1.00 {
+            tm.state++
+			return nil
 		}
 		cmd := m.progress.IncrPercent(0.25)
 		return tea.Batch(tickCmd(), cmd)

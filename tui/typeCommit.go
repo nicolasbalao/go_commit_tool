@@ -88,7 +88,7 @@ func (m typeCommitModel) Init() tea.Cmd {
 }
 
 // The Update function
-func (m *typeCommitModel) Update(msg tea.Msg, tm Model) (string, tea.Model, tea.Cmd) {
+func (m *typeCommitModel) Update(msg tea.Msg, tm *Model) (string, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch keypress := msg.String(); keypress {
@@ -99,14 +99,14 @@ func (m *typeCommitModel) Update(msg tea.Msg, tm Model) (string, tea.Model, tea.
 				m.choice = strings.ReplaceAll(choice, " ", "") // Remove space
 				tm.state++
 			}
-			return m.choice[2:], tm, nil
+			return m.choice[2:],  nil
 		}
 
 	}
 	var cmd tea.Cmd
 	m.list, cmd = m.list.Update(msg)
 
-	return "", tm, cmd
+	return "" , cmd
 }
 
 func (m typeCommitModel) View() string {

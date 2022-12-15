@@ -19,9 +19,8 @@ func newTexteAreaComponent(title string, placeholder string) *textAreaModel {
 	ta.Placeholder = placeholder
 	ta.Focus()
 
-
 	return &textAreaModel{
-        title: title,
+		title:    title,
 		textarea: ta,
 		err:      nil,
 	}
@@ -31,11 +30,11 @@ func (m textAreaModel) Init() tea.Cmd {
 	return textarea.Blink
 }
 
-func (m *textAreaModel) Update(msg tea.Msg, tm Model) (string, tea.Model, tea.Cmd) {
+func (m *textAreaModel) Update(msg tea.Msg, tm *Model) (string, tea.Cmd) {
 	var cmds []tea.Cmd
 	var cmd tea.Cmd
 
-    tm.focusedTextArea = m.textarea.Focused()
+	tm.focusedTextArea = m.textarea.Focused()
 
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
@@ -48,24 +47,24 @@ func (m *textAreaModel) Update(msg tea.Msg, tm Model) (string, tea.Model, tea.Cm
 			if !m.textarea.Focused() {
 				tm.state++
 				valueTextArea := m.textarea.Value()
-				return valueTextArea, tm, nil
+				return valueTextArea, nil
 			}
 
 		}
 	case errMsg:
 		m.err = msg
-		return "", tm, nil
+		return "",  nil
 	}
 
 	m.textarea, cmd = m.textarea.Update(msg)
 	cmds = append(cmds, cmd)
-	return "", tm, tea.Batch(cmds...)
+	return "",  tea.Batch(cmds...)
 }
 
 func (m textAreaModel) View() string {
 	return fmt.Sprintf(
 		"%s \n\n%s\n\n",
-        style.TitleStyle.Render(m.title),
+		style.TitleStyle.Render(m.title),
 		m.textarea.View(),
 	) + "\n\n"
 }

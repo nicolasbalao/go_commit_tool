@@ -33,7 +33,7 @@ func Init() tea.Cmd {
 	return nil
 }
 
-func (m *confirmModel) Update(msg tea.Msg, tm Model) (bool, tea.Model, tea.Cmd) {
+func (m *confirmModel) Update(msg tea.Msg, tm *Model) (bool, tea.Cmd) {
 
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
@@ -45,16 +45,16 @@ func (m *confirmModel) Update(msg tea.Msg, tm Model) (bool, tea.Model, tea.Cmd) 
 		case "enter":
 			if m.choice {
 				tm.state++
-				return m.choice, tm, nil
+				return m.choice, nil
 			}
 			tm.state += 2
 			if tm.state > 9 {
 				tm.state--
 			}
-			return m.choice, tm, nil
+			return m.choice, nil
 		}
 	}
-	return m.choice, tm, nil
+	return m.choice, nil
 }
 
 func (m confirmModel) View() string {

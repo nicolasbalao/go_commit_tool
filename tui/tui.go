@@ -126,42 +126,42 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch m.state {
 	//Call update function of the components
 	case typeS:
-		value, rm, cmd := m.typeComponent.Update(msg, m)
+		value, cmd := m.typeComponent.Update(msg, &m)
 		m.commit.typeCommit = value
-		return rm, cmd
+		return m, cmd
 	case breakingS:
-		value, rm, cmd := m.breakingComponent.Update(msg, m)
+		value, cmd := m.breakingComponent.Update(msg, &m)
 		m.commit.breaking = value
-		return rm, cmd
+		return m, cmd
 	case breakingDescS:
-		value, rm, cmd := m.breakingDescComponent.Update(msg, m)
+		value, cmd := m.breakingDescComponent.Update(msg, &m)
 		m.commit.breakingDesc = value
 		m.footerComponent.textarea.SetValue("BREAKING CHANGE: " + value)
-		return rm, cmd
+		return m, cmd
 	case scopeS:
-		value, rm, cmd := m.scopeComponent.Update(msg, m)
+		value, cmd := m.scopeComponent.Update(msg, &m)
 		m.commit.scope = value
-		return rm, cmd
+		return m, cmd
 	case descriptionS:
-		value, rm, cmd := m.descriptionComponent.Update(msg, m)
+		value,  cmd := m.descriptionComponent.Update(msg, &m)
 		m.commit.description = value
-		return rm, cmd
+		return m, cmd
 	case bodyS:
-		value, rm, cmd := m.bodyComponent.Update(msg, m)
+		value, cmd := m.bodyComponent.Update(msg, &m)
 		m.commit.body = value
-		return rm, cmd
+		return m, cmd
 	case footerS:
-		value, rm, cmd := m.footerComponent.Update(msg, m)
+		value, cmd := m.footerComponent.Update(msg, &m)
 		m.commit.footer = value
-		return rm, cmd
+		return m, cmd
 	case previewS:
 		if m.commit.typeCommit == "" || m.commit.description == "" {
 			return m, nil
 		}
-		_, rm, cmd := m.previewComponent.Update(msg, m)
-		return rm, cmd
+		_, cmd := m.previewComponent.Update(msg, &m)
+		return m, cmd
 	case commitS:
-        cmd := m.progressComponent.Update(msg, m)
+        cmd := m.progressComponent.Update(msg, &m)
 		return m, cmd
     case sendCommitS:
         m.sendCommitMesage()
