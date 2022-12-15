@@ -3,8 +3,7 @@ Golang tui for good conventional commit
 
 ## Refs
 [bubble tea](https://github.com/charmbracelet/bubbletea)  
-[Bubbles](https://github.com/charmbracelet/bubbles) 
-
+[Bubbles](https://github.com/charmbracelet/bubbles)
 [golang](https://github.com/golang/go)  
 [conventional commit](https://www.conventionalcommits.org/en/v1.0.0/)
 
