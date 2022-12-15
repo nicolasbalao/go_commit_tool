@@ -3,7 +3,7 @@ package tui
 import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/nicolasbalao/go_commit_toll/style"
+	"github.com/nicolasbalao/go_commit_tool/style"
 )
 
 var componentStyle = lipgloss.NewStyle().

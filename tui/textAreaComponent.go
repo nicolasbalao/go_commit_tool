@@ -5,7 +5,7 @@ import (
 
 	"github.com/charmbracelet/bubbles/textarea"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/nicolasbalao/go_commit_toll/style"
+	"github.com/nicolasbalao/go_commit_tool/style"
 )
 
 type textAreaModel struct {
@@ -53,12 +53,12 @@ func (m *textAreaModel) Update(msg tea.Msg, tm *Model) (string, tea.Cmd) {
 		}
 	case errMsg:
 		m.err = msg
-		return "",  nil
+		return "", nil
 	}
 
 	m.textarea, cmd = m.textarea.Update(msg)
 	cmds = append(cmds, cmd)
-	return "",  tea.Batch(cmds...)
+	return "", tea.Batch(cmds...)
 }
 
 func (m textAreaModel) View() string {

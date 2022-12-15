@@ -99,14 +99,14 @@ func (m *typeCommitModel) Update(msg tea.Msg, tm *Model) (string, tea.Cmd) {
 				m.choice = strings.ReplaceAll(choice, " ", "") // Remove space
 				tm.state++
 			}
-			return m.choice[2:],  nil
+			return m.choice[2:], nil
 		}
 
 	}
 	var cmd tea.Cmd
 	m.list, cmd = m.list.Update(msg)
 
-	return "" , cmd
+	return "", cmd
 }
 
 func (m typeCommitModel) View() string {

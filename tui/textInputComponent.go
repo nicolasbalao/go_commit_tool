@@ -5,7 +5,7 @@ import (
 
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/nicolasbalao/go_commit_toll/style"
+	"github.com/nicolasbalao/go_commit_tool/style"
 )
 
 type (

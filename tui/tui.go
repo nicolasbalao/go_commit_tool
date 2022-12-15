@@ -1,3 +1,8 @@
+/*
+author: nicolas balao
+
+This component handle update and view of other component with state.
+*/
 package tui
 
 import (
@@ -5,7 +10,7 @@ import (
 	"os/exec"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/nicolasbalao/go_commit_toll/style"
+	"github.com/nicolasbalao/go_commit_tool/style"
 )
 
 // Structures and enums
@@ -33,7 +38,7 @@ const (
 	footerS
 	previewS
 	commitS
-    sendCommitS
+	sendCommitS
 )
 
 // Global struct of the app
@@ -77,7 +82,7 @@ func NewModel() Model {
 			"footer",
 			"description of the breaking change and ref if you want",
 		),
-        progressComponent: newProgressModel(),
+		progressComponent: newProgressModel(),
 
 		previewComponent: newConfirmComponent("Preview", "Commit ?"),
 		commit:           &commitMessage,
@@ -143,7 +148,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.commit.scope = value
 		return m, cmd
 	case descriptionS:
-		value,  cmd := m.descriptionComponent.Update(msg, &m)
+		value, cmd := m.descriptionComponent.Update(msg, &m)
 		m.commit.description = value
 		return m, cmd
 	case bodyS:
@@ -161,11 +166,11 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		_, cmd := m.previewComponent.Update(msg, &m)
 		return m, cmd
 	case commitS:
-        cmd := m.progressComponent.Update(msg, &m)
+		cmd := m.progressComponent.Update(msg, &m)
 		return m, cmd
-    case sendCommitS:
-        m.sendCommitMesage()
-        return m, tea.Quit
+	case sendCommitS:
+		m.sendCommitMesage()
+		return m, tea.Quit
 	default:
 		return m, tea.Quit
 	}

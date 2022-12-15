@@ -4,7 +4,7 @@ import (
 	"log"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/nicolasbalao/go_commit_toll/tui"
+	"github.com/nicolasbalao/go_commit_tool/tui"
 )
 
 func main() {

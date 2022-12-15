@@ -1,4 +1,4 @@
-module github.com/nicolasbalao/go_commit_toll
+module github.com/nicolasbalao/go_commit_tool
 
 go 1.19
 
