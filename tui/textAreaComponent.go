@@ -26,10 +26,6 @@ func newTexteAreaComponent(title string, placeholder string) *textAreaModel {
 	}
 }
 
-func (m textAreaModel) Init() tea.Cmd {
-	return textarea.Blink
-}
-
 func (m *textAreaModel) Update(msg tea.Msg, tm *Model) (string, tea.Cmd) {
 	var cmds []tea.Cmd
 	var cmd tea.Cmd

@@ -82,10 +82,6 @@ func newTypeModel() *typeCommitModel {
 	}
 }
 
-// Init function, rly need?
-func (m typeCommitModel) Init() tea.Cmd {
-	return nil
-}
 
 // The Update function
 func (m *typeCommitModel) Update(msg tea.Msg, tm *Model) (string, tea.Cmd) {

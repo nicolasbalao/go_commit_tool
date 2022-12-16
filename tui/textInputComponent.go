@@ -33,9 +33,6 @@ func newTextInputComponent(title string, placeholder string) *textInputModel {
 	}
 }
 
-func (m textInputModel) Init() tea.Cmd {
-	return textinput.Blink
-}
 
 func (m *textInputModel) Update(msg tea.Msg, tm *Model) (string,  tea.Cmd) {
 	var cmd tea.Cmd

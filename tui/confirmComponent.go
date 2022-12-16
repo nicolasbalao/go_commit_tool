@@ -30,10 +30,6 @@ func newConfirmComponent(title string, question string) *confirmModel {
 	}
 }
 
-func Init() tea.Cmd {
-	return nil
-}
-
 func (m *confirmModel) Update(msg tea.Msg, tm *Model) (bool, tea.Cmd) {
 
 	switch msg := msg.(type) {
