@@ -25,7 +25,7 @@ func newProgressModel() *progressModel {
 	}
 }
 
-func (m *progressModel) Init() tea.Cmd {
+func (m progressModel) Init() tea.Cmd {
 	return tickCmd()
 }
 
@@ -43,7 +43,7 @@ func (m *progressModel) Update(msg tea.Msg, tm *Model) tea.Cmd {
 		return cmd
 	default:
 		if m.progress.Percent() == 1.00 {
-            tm.state++
+			tm.state++
 			return nil
 		}
 		cmd := m.progress.IncrPercent(0.25)
@@ -60,7 +60,7 @@ func (m progressModel) View() string {
 }
 
 func tickCmd() tea.Cmd {
-	return tea.Tick(time.Second*1, func(t time.Time) tea.Msg {
+	return tea.Tick(time.Millisecond*300, func(t time.Time) tea.Msg {
 		return tickMsg(t)
 	})
 }

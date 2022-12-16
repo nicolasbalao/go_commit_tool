@@ -166,8 +166,8 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		_, cmd := m.previewComponent.Update(msg, &m)
 		return m, cmd
 	case commitS:
-		cmd := m.progressComponent.Update(msg, &m)
-		return m, cmd
+        cmd := m.progressComponent.Update(msg, &m)
+        return m, cmd
 	case sendCommitS:
         cmd := m.sendCommitMesage()
 		return m, cmd
@@ -221,7 +221,7 @@ func (m Model) View() string {
 	case commitS:
 		return "Press enter for start sending" + "\n\n" + m.progressComponent.View()
 	default:
-		return "not component view"
+		return "Bye Bye"
 	}
 }
 
@@ -283,7 +283,6 @@ func (m Model) sendCommitMesage() tea.Cmd {
 		"-m "+icon_message+m.commit.typeCommit+m.commit.scope+m.commit.description,
 		"-m "+m.commit.body, "-m "+m.commit.footer,
 	)
-
 
 	err := cmd.Run()
 
