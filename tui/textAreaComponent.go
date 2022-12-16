@@ -30,20 +30,18 @@ func (m *textAreaModel) Update(msg tea.Msg, tm *Model) (string, tea.Cmd) {
 	var cmds []tea.Cmd
 	var cmd tea.Cmd
 
-	tm.focusedTextArea = m.textarea.Focused()
 
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch keypress := msg.String(); keypress {
 		case "esc":
 			if m.textarea.Focused() {
+				tm.focusedTextArea = false
 				m.textarea.Blur()
 			}
 		case "enter":
 			if !m.textarea.Focused() {
-				tm.state++
-				valueTextArea := m.textarea.Value()
-				return valueTextArea, nil
+				m.textarea.Focus()
 			}
 
 		}
@@ -52,9 +50,10 @@ func (m *textAreaModel) Update(msg tea.Msg, tm *Model) (string, tea.Cmd) {
 		return "", nil
 	}
 
+	tm.focusedTextArea = m.textarea.Focused()
 	m.textarea, cmd = m.textarea.Update(msg)
 	cmds = append(cmds, cmd)
-	return "", tea.Batch(cmds...)
+	return m.textarea.Value(), tea.Batch(cmds...)
 }
 
 func (m textAreaModel) View() string {

@@ -87,7 +87,7 @@ func NewModel() Model {
 		previewComponent: newConfirmComponent("Preview", "Commit ?"),
 		commit:           &commitMessage,
 		state:            typeS,
-		helper:           "ctrl+h/p: back  ctrl+l/n: next",
+        helper:           "ctrl+h/p: back  ctrl+l/n: next  enter: confirm",
 	}
 }
 
@@ -160,6 +160,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.commit.footer = value
 		return m, cmd
 	case previewS:
+        m.focusedTextArea = false
 		if m.commit.typeCommit == "" || m.commit.description == "" {
 			return m, nil
 		}
