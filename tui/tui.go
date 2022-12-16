@@ -55,6 +55,8 @@ type Model struct {
 	progressComponent     *progressModel
 
 	focusedTextArea bool
+	sendCommit     bool
+
 	commit          *commitMessage
 	state           State
 	helper          string
@@ -87,7 +89,7 @@ func NewModel() Model {
 		previewComponent: newConfirmComponent("Preview", "Commit ?"),
 		commit:           &commitMessage,
 		state:            typeS,
-        helper:           "ctrl+h/p: back  ctrl+l/n: next  enter: confirm",
+		helper:           "ctrl+h/p: back  ctrl+l/n: next  enter: confirm",
 	}
 }
 
@@ -160,18 +162,22 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.commit.footer = value
 		return m, cmd
 	case previewS:
-        m.focusedTextArea = false
+		m.focusedTextArea = false
 		if m.commit.typeCommit == "" || m.commit.description == "" {
 			return m, nil
 		}
-		_, cmd := m.previewComponent.Update(msg, &m)
+		value, cmd := m.previewComponent.Update(msg, &m)
+        m.sendCommit = value
 		return m, cmd
 	case commitS:
-        cmd := m.progressComponent.Update(msg, &m)
-        return m, cmd
-	case sendCommitS:
-        cmd := m.sendCommitMesage()
+		cmd := m.progressComponent.Update(msg, &m)
 		return m, cmd
+	case sendCommitS:
+        if m.sendCommit{
+            cmd := m.sendCommitMesage()
+            return m, cmd
+        }
+        return m, tea.Quit
 	default:
 		return m, tea.Quit
 	}
