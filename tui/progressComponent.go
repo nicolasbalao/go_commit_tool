@@ -43,8 +43,8 @@ func (m *progressModel) Update(msg tea.Msg, tm *Model) tea.Cmd {
 		return cmd
 	default:
 		if m.progress.Percent() == 1.00 {
-			tm.state++
-			return nil
+            tm.sendCommitMesage()
+			return tea.Quit
 		}
 		cmd := m.progress.IncrPercent(0.25)
 		return tea.Batch(tickCmd(), cmd)

@@ -38,7 +38,6 @@ const (
 	footerS
 	previewS
 	commitS
-	sendCommitS
 )
 
 // Global struct of the app
@@ -55,11 +54,11 @@ type Model struct {
 	progressComponent     *progressModel
 
 	focusedTextArea bool
-	sendCommit     bool
+	sendCommit      bool
 
-	commit          *commitMessage
-	state           State
-	helper          string
+	commit *commitMessage
+	state  State
+	helper string
 }
 
 // Create the Model
@@ -94,13 +93,11 @@ func NewModel() Model {
 }
 
 // Init
-
 func (m Model) Init() tea.Cmd {
 	return nil
 }
 
 // Update
-
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	// switch on the type of msg
@@ -167,17 +164,11 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, nil
 		}
 		value, cmd := m.previewComponent.Update(msg, &m)
-        m.sendCommit = value
+		m.sendCommit = value
 		return m, cmd
 	case commitS:
 		cmd := m.progressComponent.Update(msg, &m)
 		return m, cmd
-	case sendCommitS:
-        if m.sendCommit{
-            cmd := m.sendCommitMesage()
-            return m, cmd
-        }
-        return m, tea.Quit
 	default:
 		return m, tea.Quit
 	}
@@ -290,6 +281,9 @@ func (m Model) sendCommitMesage() tea.Cmd {
 		"-m "+icon_message+m.commit.typeCommit+m.commit.scope+m.commit.description,
 		"-m "+m.commit.body, "-m "+m.commit.footer,
 	)
+
+    // Testing
+    // cmd.Dir = "/tmp/test"
 
 	err := cmd.Run()
 
