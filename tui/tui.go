@@ -204,7 +204,7 @@ func (m Model) View() string {
 	case previewS:
 
 		if m.commit.typeCommit == "" || m.commit.description == "" {
-			return style.ErrorStyle.Render("Missing value scope or description")
+			return style.ErrorStyle.Render("Missing value scope or description") + "\n" + style.HelpStyle.Render(m.helper)
 		}
 
 		return style.Margin.Render(
